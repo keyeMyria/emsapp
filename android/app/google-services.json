@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "598045242689",
+    "firebase_url": "https://grc-ems-214405.firebaseio.com",
+    "project_id": "grc-ems-214405",
+    "storage_bucket": "grc-ems-214405.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:598045242689:android:fbcfa85ce05a2978",
+        "android_client_info": {
+          "package_name": "com.example.emsapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "598045242689-bi5aift2p0s5orgj40maiiuqkmpm1jqr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvuyFfGQLVZtBE6MzSi4KlDmD4M4mKoDg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
