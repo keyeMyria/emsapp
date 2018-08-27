@@ -61,7 +61,7 @@ class StartScreenState extends State<StartScreen>
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   new Container(
-                    height: screenSize.height * 0.55,
+                    height: screenSize.height * 0.65,
                     width: screenSize.width * 0.8,
                     color: Colors.white,
                     child: new Column(
