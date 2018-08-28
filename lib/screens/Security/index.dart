@@ -80,163 +80,188 @@ class SecurityScreenState extends State<SecurityScreen>
                 ),
               ),
               new Container(
+                
                 height: screenSize.height * 0.9,
                 width: screenSize.width,
                 color: Colors.white,
                 child: new Column(
                   children: <Widget>[
-                    ListTile(
-                      onTap: () => launch("tel://6236800497"),
-                      isThreeLine: true,
-                      title: Text("Wild Horse Pass Hotel & Casino"),
-                      subtitle: new Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          new Text(
-                            "1 800-946-4452",
-                            style: new TextStyle(
-                              fontFamily: "Roboto",
-                              fontSize: 16.0,
-                              color: Colors.blue,
-                            ),
+                    new Container(
+                      margin: EdgeInsets.only(top: 10.0),
+                      child: new MaterialButton(
+                        onPressed: () => launch("tel://6236800497"),
+                        child: ListTile(
+                         
+                          isThreeLine: true,
+                          title: Text("Wild Horse Pass Hotel & Casino"),
+                          subtitle: new Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              new Text(
+                                "1 800-946-4452",
+                                style: new TextStyle(
+                                  fontFamily: "Roboto",
+                                  fontSize: 16.0,
+                                  color: Colors.blue,
+                                ),
+                              ),
+                              new Text(
+                                "Contemporary Rooms & Suites in a casino property with 8 restaurants, a heated pool, & a nightclub.",
+                                style: new TextStyle(
+                                  fontFamily: "Roboto",
+                                  fontSize: 13.0,
+                                ),
+                              ),
+                            ],
                           ),
-                          new Text(
-                            "Contemporary Rooms & Suites in a casino property with 8 restaurants, a heated pool, & a nightclub.",
-                            style: new TextStyle(
-                              fontFamily: "Roboto",
-                              fontSize: 13.0,
+                          leading: new Container(
+                            height: screenSize.height * 0.1,
+                            width: screenSize.height * 0.1,
+                            color: Colors.greenAccent,
+                            alignment: Alignment.center,
+                            child: new Text(
+                              "WHP",
+                              textAlign: TextAlign.center,
+                              style: new TextStyle(
+                                fontFamily: "Roboto",
+                                fontSize: 16.0,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      leading: new Container(
-                        height: screenSize.height * 0.1,
-                        width: screenSize.height * 0.1,
-                        color: Colors.greenAccent,
-                        alignment: Alignment.center,
-                        child: new Text(
-                          "WHP",
-                          textAlign: TextAlign.center,
-                          style: new TextStyle(
-                            fontFamily: "Roboto",
-                            fontSize: 16.0,
                           ),
                         ),
                       ),
                     ),
-                    ListTile(
-                      onTap: () => launch("tel://6236800497"),
-                      isThreeLine: true,
-                      title: Text("Vee Quiva Hotel and Casino"),
-                      subtitle: new Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          new Text(
-                            "1 800-946-4452",
-                            style: new TextStyle(
-                              fontFamily: "Roboto",
-                              fontSize: 16.0,
-                              color: Colors.blue,
-                            ),
+                    new Container(
+                      margin: EdgeInsets.only(top: 10.0),
+                      child: new MaterialButton(
+                        onPressed: () => launch("tel://6236800497"),
+                        child: ListTile(
+                          
+                          isThreeLine: true,
+                          title: Text("Vee Quiva Hotel and Casino"),
+                          subtitle: new Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              new Text(
+                                "1 800-946-4452",
+                                style: new TextStyle(
+                                  fontFamily: "Roboto",
+                                  fontSize: 16.0,
+                                  color: Colors.blue,
+                                ),
+                              ),
+                              new Text(
+                                "Vibrant casino hotel offering a grill restaurant & an outdoor pool, plus live entertainment.",
+                                style: new TextStyle(
+                                  fontFamily: "Roboto",
+                                  fontSize: 13.0,
+                                ),
+                              ),
+                            ],
                           ),
-                          new Text(
-                            "Vibrant casino hotel offering a grill restaurant & an outdoor pool, plus live entertainment.",
-                            style: new TextStyle(
-                              fontFamily: "Roboto",
-                              fontSize: 13.0,
+                          leading: new Container(
+                            height: screenSize.height * 0.1,
+                            width: screenSize.height * 0.1,
+                            color: Colors.grey,
+                            alignment: Alignment.center,
+                            child: new Text(
+                              "VQ",
+                              textAlign: TextAlign.center,
+                              style: new TextStyle(
+                                fontFamily: "Roboto",
+                                fontSize: 16.0,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      leading: new Container(
-                        height: screenSize.height * 0.1,
-                        width: screenSize.height * 0.1,
-                        color: Colors.grey,
-                        alignment: Alignment.center,
-                        child: new Text(
-                          "VQ",
-                          textAlign: TextAlign.center,
-                          style: new TextStyle(
-                            fontFamily: "Roboto",
-                            fontSize: 16.0,
                           ),
                         ),
                       ),
                     ),
-                    ListTile(
-                      onTap: () => launch("tel://6236800497"),
-                      isThreeLine: true,
-                      title: Text("Lone Butte Casino"),
-                      subtitle: new Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          new Text(
-                            "1 800-946-4452",
-                            style: new TextStyle(
-                              fontFamily: "Roboto",
-                              fontSize: 16.0,
-                              color: Colors.blue,
-                            ),
+                    new Container(
+                      margin: EdgeInsets.only(top: 10.0),
+                      child: new MaterialButton(
+                        onPressed: () => launch("tel://6236800497"),
+                        child: ListTile(
+                          
+                          isThreeLine: true,
+                          title: Text("Lone Butte Casino"),
+                          subtitle: new Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              new Text(
+                                "1 800-946-4452",
+                                style: new TextStyle(
+                                  fontFamily: "Roboto",
+                                  fontSize: 16.0,
+                                  color: Colors.blue,
+                                ),
+                              ),
+                              new Text(
+                                "A steakhouse & loung complements the gaming at this hot spot for bingo cards, slots, & other games.",
+                                style: new TextStyle(
+                                  fontFamily: "Roboto",
+                                  fontSize: 13.0,
+                                ),
+                              ),
+                            ],
                           ),
-                          new Text(
-                            "A steakhouse & loung complements the gaming at this hot spot for bingo cards, slots, & other games.",
-                            style: new TextStyle(
-                              fontFamily: "Roboto",
-                              fontSize: 13.0,
+                          leading: new Container(
+                            height: screenSize.height * 0.1,
+                            width: screenSize.height * 0.1,
+                            color: Colors.purpleAccent,
+                            alignment: Alignment.center,
+                            child: new Text(
+                              "LB",
+                              textAlign: TextAlign.center,
+                              style: new TextStyle(
+                                fontFamily: "Roboto",
+                                fontSize: 16.0,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      leading: new Container(
-                        height: screenSize.height * 0.1,
-                        width: screenSize.height * 0.1,
-                        color: Colors.purpleAccent,
-                        alignment: Alignment.center,
-                        child: new Text(
-                          "LB",
-                          textAlign: TextAlign.center,
-                          style: new TextStyle(
-                            fontFamily: "Roboto",
-                            fontSize: 16.0,
                           ),
                         ),
                       ),
                     ),
-                    ListTile(
-                      onTap: () => launch("tel://6236800497"),
-                      isThreeLine: true,
-                      title: Text("Lone Buttes Distribution Center"),
-                      subtitle: new Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          new Text(
-                            "No Phone Number Found",
-                            style: new TextStyle(
-                              fontFamily: "Roboto",
-                              fontSize: 16.0,
-                              color: Colors.blue,
-                            ),
+                    new Container(
+                      margin: EdgeInsets.only(top: 10.0),
+                      child: new MaterialButton(
+                      //  onPressed: () => launch("tel://6236800497"),
+                        child: ListTile(
+                       
+                          isThreeLine: true,
+                          title: Text("Lone Buttes Distribution Center"),
+                          subtitle: new Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              new Text(
+                                "No Phone Number Found",
+                                style: new TextStyle(
+                                  fontFamily: "Roboto",
+                                  fontSize: 16.0,
+                                  color: Colors.blue,
+                                ),
+                              ),
+                              new Text(
+                                "No Description Available.",
+                                style: new TextStyle(
+                                  fontFamily: "Roboto",
+                                  fontSize: 13.0,
+                                ),
+                              ),
+                            ],
                           ),
-                          new Text(
-                            "No Description Available.",
-                            style: new TextStyle(
-                              fontFamily: "Roboto",
-                              fontSize: 13.0,
+                          leading: new Container(
+                            height: screenSize.height * 0.1,
+                            width: screenSize.height * 0.1,
+                            color: Colors.orangeAccent,
+                            alignment: Alignment.center,
+                            child: new Text(
+                              "LBDC",
+                              textAlign: TextAlign.center,
+                              style: new TextStyle(
+                                fontFamily: "Roboto",
+                                fontSize: 16.0,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      leading: new Container(
-                        height: screenSize.height * 0.1,
-                        width: screenSize.height * 0.1,
-                        color: Colors.orangeAccent,
-                        alignment: Alignment.center,
-                        child: new Text(
-                          "LBDC",
-                          textAlign: TextAlign.center,
-                          style: new TextStyle(
-                            fontFamily: "Roboto",
-                            fontSize: 16.0,
                           ),
                         ),
                       ),

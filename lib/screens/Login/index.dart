@@ -42,26 +42,20 @@ class LoginScreenState extends State<LoginScreen>
     currentUser.lastName = lName;
     var results = await user.login(currentUser);
     if (results == "Badge Number or last name does not exist.") {
-      
       message = results + contact;
       _showDialog();
-      
-    }
-    else if(results == "The account is registered to another device.") {
+    } else if (results == "The account is registered to another device.") {
       message = results + contact;
       _showDialog();
-    }
-
-    else {
+    } else {
       globals.badge = currentUser.badge;
       Navigator.pushNamed(context, "/HomePage");
     }
-    
-
   }
 
   var message = "";
-  var contact = " Please contact the security department at 800-946-4452 to have the account un-registered to its current device.";
+  var contact =
+      " Please contact the security department at 800-946-4452 to have the account un-registered to its current device.";
   void _showDialog() {
     // flutter defined function
     showDialog(
@@ -112,7 +106,7 @@ class LoginScreenState extends State<LoginScreen>
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   new Container(
-                    height: screenSize.height * 0.55,
+                    height: screenSize.height * 0.5,
                     width: screenSize.width * 0.8,
                     color: Colors.white,
                     child: new Column(
@@ -134,10 +128,7 @@ class LoginScreenState extends State<LoginScreen>
                               top: 15.0, bottom: 20.0, left: 15.0, right: 15.0),
                           child: new TextField(
                             keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: 'Badge No.'
-                            ),
+                            decoration: InputDecoration(hintText: 'Badge No.'),
                             onChanged: (String text) {
                               badge = text;
                             },
@@ -150,32 +141,32 @@ class LoginScreenState extends State<LoginScreen>
                             onChanged: (String text) {
                               lName = text;
                             },
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: 'Last Name'
-                            ),
+                            decoration: InputDecoration(hintText: 'Last Name'),
                           ),
                         ),
-                        new MaterialButton(
-                          height: screenSize.height * 0.07,
-                          minWidth: screenSize.width * 0.6,
-                          elevation: 4.0,
-                          padding: const EdgeInsets.all(8.0),
-                          color: Colors.blue,
-                          onPressed: () => login(),
-                          child: new Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              new Text(
-                                'Get Started',
-                                style: new TextStyle(
-                                  fontFamily: "Roboto",
-                                  color: Colors.white,
-                                  fontSize: 18.0,
+                        new Container(
+                          padding: const EdgeInsets.only(
+                              top: 15.0, bottom: 5.0, left: 8.0, right: 8.0),
+                          child: new MaterialButton(
+                            height: screenSize.height * 0.07,
+                            minWidth: screenSize.width * 0.6,
+                            elevation: 4.0,
+                            color: Colors.blue,
+                            onPressed: () => login(),
+                            child: new Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                new Text(
+                                  'Get Started',
+                                  style: new TextStyle(
+                                    fontFamily: "Roboto",
+                                    color: Colors.white,
+                                    fontSize: 18.0,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ],

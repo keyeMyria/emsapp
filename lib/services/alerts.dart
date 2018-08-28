@@ -75,7 +75,7 @@ class Alerts {
       await client.get("http://ems.wingilariverit.com/alertApi/alerts/read.php");
     //final parsed = json.decode(response.toString()).cast<Map<String, dynamic>>();
     List<Alert> alerts = parseAlerts(response.body);
-   
+
     return alerts;
   }
 
@@ -90,8 +90,7 @@ class Alerts {
     alert.id = id;
     var jsonAlert = json.encode(alert);
     await client.post(url, body: jsonAlert).then((response) => result = response.body);
-    
-    //final parsed = json.decode(response.toString()).cast<Map<String, dynamic>>();
+
     List<Alert> alerts = parseAlerts(result);
     Alert results = alerts[0];
 

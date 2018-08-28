@@ -113,7 +113,7 @@ class AddAlertScreenState extends State<AddAlertScreen>
                           child: new TextField(
                             keyboardType: TextInputType.multiline,
                             decoration: InputDecoration(
-                              border: InputBorder.none, 
+                           
                               hintText: 'Message'
                             ),
                             onChanged: (String text) {
@@ -122,7 +122,7 @@ class AddAlertScreenState extends State<AddAlertScreen>
                           ),
                         ),
                         new Container(
-                          margin: EdgeInsets.all(10.0),
+                          margin: EdgeInsets.only(top: 25.0, bottom: 10.0, left: 10.0, right: 10.0),
                           child: new MaterialButton(
                             height: screenSize.height * 0.07,
                             minWidth: screenSize.width * 0.6,

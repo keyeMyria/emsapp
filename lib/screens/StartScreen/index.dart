@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class StartScreen extends StatefulWidget {
   @override
   StartScreenState createState() => StartScreenState();
@@ -19,7 +18,6 @@ class StartScreenState extends State<StartScreen>
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, length: 2);
-
   }
 
   @override
@@ -40,8 +38,6 @@ class StartScreenState extends State<StartScreen>
     });
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -61,25 +57,27 @@ class StartScreenState extends State<StartScreen>
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   new Container(
-                    height: screenSize.height * 0.65,
+                    height: screenSize.height * 0.55,
                     width: screenSize.width * 0.8,
                     color: Colors.white,
                     child: new Column(
                       children: <Widget>[
-                        new Container(
-                          padding: const EdgeInsets.only(top: 15.0, bottom: 20.0, left: 15.0, right: 15.0),
-                          child: new Text(
-                            message,
-                            textAlign: TextAlign.center,
-                            style: new TextStyle(
-                              fontFamily: "Roboto",
-                              fontSize: 16.0,
+                        new Flexible(
+                          
+                          child: new Container(
+                            padding: const EdgeInsets.only(top: 15.0, bottom: 20.0, left: 15.0, right: 15.0),
+                            child: new Text(
+                              message,
+                              textAlign: TextAlign.center,
+                              style: new TextStyle(
+                                fontFamily: "Roboto",
+                                fontSize: screenSize.height * 0.023,
+                              ),
                             ),
                           ),
                         ),
                         new MaterialButton(
                           height: screenSize.height * 0.07,
-
                           minWidth: screenSize.width * 0.6,
                           elevation: 4.0,
                           padding: const EdgeInsets.all(8.0),

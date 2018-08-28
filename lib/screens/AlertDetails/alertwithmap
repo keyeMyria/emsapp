@@ -38,7 +38,7 @@ class AlertDetailsScreenState extends State<AlertDetailsScreen>
   CameraPosition cameraPosition;
   Uri staticMapUri;
   MapView mapView = new MapView();
-  //var compositeSubscription = new CompositeSubscription();
+  var compositeSubscription = new CompositeSubscription();
   var apiKey = "AIzaSyAxGHVmvf8XmsN5axn7RHm0aO8lNZKsWYQ";
 
   bool _loading;
@@ -59,7 +59,7 @@ class AlertDetailsScreenState extends State<AlertDetailsScreen>
     const _MyColor(null, 'Clear'),
     const _MyColor(const Color(0xFFba3232), 'Red'),
     const _MyColor(const Color(0xFFba6f32), 'Orange'),
-    const _MyColor(const Color(0xFF959F05), 'Yellow'),
+    const _MyColor(const Color(0xFFffff00), 'Yellow'),
     const _MyColor(const Color(0xFF915bb7), 'Purple'),
     const _MyColor(const Color(0xFF008080), 'Green'),
   ];
@@ -83,12 +83,6 @@ class AlertDetailsScreenState extends State<AlertDetailsScreen>
     //gets alert updates
     List<AlertUpdate> testing =
         await alertUpdates.getAlertUpdates(widget.alertId.toString());
-
-    for (var i = 0; i < testing.length; i++) {
-      if (testing[i].message == null) {
-        testing[i].message = "No Message";
-      }
-    }
     setState(() {
       if (test.message == null) {
         test.message == "No Message";
@@ -117,7 +111,70 @@ class AlertDetailsScreenState extends State<AlertDetailsScreen>
     });
   }
 
-  showMap() {}
+  showMap() {
+    List<Marker> _markers = <Marker>[
+      new Marker(
+        "1",
+        "Alert Location",
+        double.parse(alert.latitude),
+        double.parse(alert.longitude),
+        color: Colors.blue,
+        draggable: false, //Allows the user to move the marker.
+        
+      ),
+    ];
+    mapView.show(
+        new MapOptions(
+            mapViewType: MapViewType.normal,
+            showUserLocation: true,
+            showMyLocationButton: true,
+            showCompassButton: true,
+            initialCameraPosition: new CameraPosition(
+                new Location(double.parse(alert.latitude), double.parse(alert.longitude)), 15.0),
+            hideToolbar: false,
+        ),
+        toolbarActions: [new ToolbarAction("Close", 1)]);
+    StreamSubscription sub = mapView.onMapReady.listen((_) {
+      mapView.setMarkers(_markers);
+    });
+    compositeSubscription.add(sub);
+    sub = mapView.onLocationUpdated.listen((location) {
+      print("Location updated $location");
+    });
+    compositeSubscription.add(sub);
+    sub = mapView.onTouchAnnotation
+        .listen((annotation) => print("annotation ${annotation.id} tapped"));
+    compositeSubscription.add(sub);
+
+    compositeSubscription.add(sub);
+    sub = mapView.onCameraChanged.listen((cameraPosition) =>
+        this.setState(() => this.cameraPosition = cameraPosition));
+    compositeSubscription.add(sub);
+
+    sub = mapView.onAnnotationDragStart.listen((markerMap) {
+      var marker = markerMap.keys.first;
+      print("Annotation ${marker.id} dragging started");
+    });
+    sub = mapView.onAnnotationDragEnd.listen((markerMap) {
+      var marker = markerMap.keys.first;
+      print("Annotation ${marker.id} dragging ended");
+    });
+
+    sub = mapView.onAnnotationDrag.listen((markerMap) {
+      var marker = markerMap.keys.first;
+      var location = markerMap[marker];
+      print("Annotation ${marker.id} moved to ${location.latitude} , ${location
+          .longitude}");
+    });
+
+    compositeSubscription.add(sub);
+    
+    compositeSubscription.add(sub);
+    sub = mapView.onInfoWindowTapped.listen((marker) {
+      print("Info Window Tapped for ${marker.title}");
+    });
+    compositeSubscription.add(sub);
+  }
 
   Widget description() {
     if (alert.description == null) {
@@ -143,51 +200,6 @@ class AlertDetailsScreenState extends State<AlertDetailsScreen>
     }
   }
 
-  Widget buildUpdates() {
-    final Size screenSize = MediaQuery.of(context).size;
-    if (alertUpdate.length == 0) {
-      return new Text(
-        "No Updates",
-      );
-    } else {
-      return new ListView.builder(
-        reverse: true,
-        
-        itemCount: alertUpdate.length,
-        itemBuilder: (BuildContext ctxt, int index) {
-          return new Container(
-              color: Colors.white,
-              margin: EdgeInsets.only(bottom: 10.0),
-              child: new Column(
-                children: <Widget>[
-                  new Container(
-                    padding: EdgeInsets.all(10.0),
-                    child: new Text(
-                      alertUpdate[index].message,
-                      style: new TextStyle(
-                        fontFamily: "Roboto",
-                        fontSize: 20.0,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                  new Container(
-                    child: new Text(
-                      alertUpdate[index].time,
-                      style: new TextStyle(
-                        fontFamily: "Roboto",
-                        fontSize: 20.0,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                ],
-              ));
-        },
-      );
-    }
-  }
-
   Widget _buildDetails() {
     final Size screenSize = MediaQuery.of(context).size;
     if (_loading) {
@@ -208,19 +220,15 @@ class AlertDetailsScreenState extends State<AlertDetailsScreen>
               color: myBgColors[int.parse(alert.severityLevel)].color,
               child: AppBar(
                 title: MaterialButton(
-                  minWidth: screenSize.width,
                   onPressed: () => onPressed("/HomePage"),
                   child: new Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    //mainAxisSize: MainAxisSize.min,
+                    mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       new Container(
-                        width: screenSize.width * 0.5,
                         margin: EdgeInsets.only(right: screenSize.width * 0.1),
                         child: new Text(
                           alert.title,
-                          //textAlign: TextAlign.start,
                           style: new TextStyle(
                             fontFamily: "Roboto",
                             color: Colors.white,
@@ -229,10 +237,9 @@ class AlertDetailsScreenState extends State<AlertDetailsScreen>
                         ),
                       ),
                       new Container(
-                        width: screenSize.width * 0.5,
                         child: new Text(
                           alert.scheduleAt,
-                          //textAlign: TextAlign.start,
+                          textAlign: TextAlign.end,
                           style: new TextStyle(
                             fontFamily: "Roboto",
                             color: Colors.white,
@@ -248,31 +255,35 @@ class AlertDetailsScreenState extends State<AlertDetailsScreen>
               ),
             ),
             new Container(
-              color: Colors.blueAccent,
-              height: screenSize.height * 0.3,
+              height: 250.0,
               child: new Stack(
                 children: <Widget>[
                   new Center(
                       child: new Container(
                     child: new Text(
-                      "Maps Template Holder",
+                      "You are supposed to see a map here.\n\nAPI Key is not valid.\n\n"
+                          "To view maps in the example application set the "
+                          "API_KEY variable in example/lib/main.dart. "
+                          "\n\nIf you have set an API Key but you still see this text "
+                          "make sure you have enabled all of the correct APIs "
+                          "in the Google API Console. See README for more detail.",
                       textAlign: TextAlign.center,
                     ),
                     padding: const EdgeInsets.all(20.0),
                   )),
                   new InkWell(
-                    /*
+                    
                       child: new Center(
                         child: new Image.network(staticMapUri.toString()),
                       ),
-                      */
+                      
                     onTap: showMap(),
                   )
                 ],
               ),
             ),
             new Container(
-              height: screenSize.height * 0.2,
+              height: screenSize.height * 0.1,
               width: screenSize.width,
               color: Colors.white,
               padding: const EdgeInsets.only(
@@ -303,18 +314,44 @@ class AlertDetailsScreenState extends State<AlertDetailsScreen>
                 ),
               ),
             ),
-
-            //builds alert updates widget
             new Container(
-              height: screenSize.height * 0.22,
+              height: screenSize.height * 0.25,
               width: screenSize.width,
-              //color: Colors.white,
-              
-              decoration:
-                  new BoxDecoration(border: new Border.all(color: Colors.grey)),
-              child: buildUpdates(),
-            ),
+              color: Colors.white,
+              child: new ListView.builder(
+                itemCount: alertUpdate.length,
+                itemBuilder: (BuildContext ctxt, int index) {
+                  return new Container(
+                      child: new Column(
+                    children: <Widget>[
+                      new Container(
+                        padding: EdgeInsets.all(10.0),
+                        child: new Text(
+                          alertUpdate[index].message,
+                          style: new TextStyle(
+                            fontFamily: "Roboto",
+                            fontSize: 20.0,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      new Container(
+                        child: new Text(
+                          alertUpdate[index].time,
+                          style: new TextStyle(
+                            fontFamily: "Roboto",
+                            fontSize: 20.0,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ));
 
+                  // return new Text(alerts[index].title);
+                },
+              ),
+            ),
             new Container(
               height: screenSize.height * 0.08,
               width: screenSize.width,
@@ -354,5 +391,36 @@ class AlertDetailsScreenState extends State<AlertDetailsScreen>
     return MaterialApp(
       home: Scaffold(body: _buildDetails()),
     );
+  }
+}
+
+class CompositeSubscription {
+  Set<StreamSubscription> _subscriptions = new Set();
+
+  void cancel() {
+    for (var n in this._subscriptions) {
+      n.cancel();
+    }
+    this._subscriptions = new Set();
+  }
+
+  void add(StreamSubscription subscription) {
+    this._subscriptions.add(subscription);
+  }
+
+  void addAll(Iterable<StreamSubscription> subs) {
+    _subscriptions.addAll(subs);
+  }
+
+  bool remove(StreamSubscription subscription) {
+    return this._subscriptions.remove(subscription);
+  }
+
+  bool contains(StreamSubscription subscription) {
+    return this._subscriptions.contains(subscription);
+  }
+
+  List<StreamSubscription> toList() {
+    return this._subscriptions.toList();
   }
 }

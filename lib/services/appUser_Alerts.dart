@@ -122,6 +122,7 @@ class AppAlerts {
     alert.latitude = position.latitude.toString();
     alert.message = newAlert.message;
     alert.badgeNo = globals.badge;
+    alert.image = newAlert.image;
     alert.time = new DateTime.now().toString();
     alert.isRead = "0";
     alert.isApproved = "0";
