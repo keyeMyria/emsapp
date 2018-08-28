@@ -12,6 +12,7 @@ import 'package:map_view/polyline.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:async';
 
+
 class _MyColor {
   const _MyColor(this.color, this.name);
 
@@ -33,13 +34,13 @@ class AlertDetailsScreenState extends State<AlertDetailsScreen>
   Alerts rest = new Alerts();
   AlertUpdates alertUpdates = new AlertUpdates();
   ScrollController scrollController = new ScrollController();
-  Choice _selectedChoice = choices[0];
 
-  CameraPosition cameraPosition;
-  Uri staticMapUri;
   MapView mapView = new MapView();
-  //var compositeSubscription = new CompositeSubscription();
-  var apiKey = "AIzaSyAxGHVmvf8XmsN5axn7RHm0aO8lNZKsWYQ";
+  static var apiKey = "AIzaSyAxGHVmvf8XmsN5axn7RHm0aO8lNZKsWYQ";
+  CameraPosition cameraPosition;
+  var compositeSubscription = new CompositeSubscription();
+  var staticMapProvider = new StaticMapProvider(apiKey);
+  Uri staticMapUri;
 
   bool _loading;
   @override
@@ -47,12 +48,42 @@ class AlertDetailsScreenState extends State<AlertDetailsScreen>
     _loading = true;
 
     super.initState();
-    MapView.setApiKey(apiKey);
+
     getAlert().then((result) {
       setState(() {
         _loading = false;
+        MapView.setApiKey(apiKey);
+        cameraPosition = new CameraPosition(Locations.portland, 2.0);
+        staticMapUri = staticMapProvider.getStaticUri(Locations.portland, 12,
+            width: 900, height: 400, mapType: StaticMapViewType.roadmap);
       });
     });
+  }
+
+  showMap() {
+    var staticMapProvider = new StaticMapProvider(apiKey);
+    mapView.show(
+        new MapOptions(
+            mapViewType: MapViewType.normal,
+            showUserLocation: true,
+            initialCameraPosition: new CameraPosition(
+                new Location(45.5235258, -122.6732493), 14.0),
+            title: "Recently Visited"),
+        toolbarActions: [new ToolbarAction("Close", 1)]);
+  }
+
+  _handleDismiss() async {
+    double zoomLevel = await mapView.zoomLevel;
+    Location centerLocation = await mapView.centerLocation;
+    List<Marker> visibleAnnotations = await mapView.visibleAnnotations;
+    print("Zoom Level: $zoomLevel");
+    print("Center: $centerLocation");
+    print("Visible Annotation Count: ${visibleAnnotations.length}");
+    var uri = await staticMapProvider.getImageUriFromMap(mapView,
+        width: 900, height: 400);
+    setState(() => staticMapUri = uri);
+    mapView.dismiss();
+    compositeSubscription.cancel();
   }
 
   static const List<_MyColor> myBgColors = const <_MyColor>[
@@ -117,8 +148,6 @@ class AlertDetailsScreenState extends State<AlertDetailsScreen>
     });
   }
 
-  showMap() {}
-
   Widget description() {
     if (alert.description == null) {
       return new Text(
@@ -152,12 +181,11 @@ class AlertDetailsScreenState extends State<AlertDetailsScreen>
     } else {
       return new ListView.builder(
         reverse: true,
-        
         itemCount: alertUpdate.length,
         itemBuilder: (BuildContext ctxt, int index) {
           return new Container(
               color: Colors.white,
-              margin: EdgeInsets.only(bottom: 10.0),
+              margin: EdgeInsets.only(bottom: 20.0),
               child: new Column(
                 children: <Widget>[
                   new Container(
@@ -193,58 +221,58 @@ class AlertDetailsScreenState extends State<AlertDetailsScreen>
     if (_loading) {
       return new Center(child: new CircularProgressIndicator());
     } else {
-      return new Container(
-        //margin: const EdgeInsets.symmetric(horizontal: 9.0),
+      return new SingleChildScrollView(
+          child: new Container(
         height: screenSize.height,
         width: screenSize.width,
-        alignment: FractionalOffset.center,
-
         child: new Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             new Container(
               height: screenSize.height * 0.1,
               width: screenSize.width,
               color: myBgColors[int.parse(alert.severityLevel)].color,
-              child: AppBar(
-                title: MaterialButton(
-                  minWidth: screenSize.width,
-                  onPressed: () => onPressed("/HomePage"),
-                  child: new Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    //mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      new Container(
-                        width: screenSize.width * 0.5,
-                        margin: EdgeInsets.only(right: screenSize.width * 0.1),
-                        child: new Text(
-                          alert.title,
-                          //textAlign: TextAlign.start,
-                          style: new TextStyle(
-                            fontFamily: "Roboto",
-                            color: Colors.white,
-                            fontSize: 16.0,
-                          ),
+              child: MaterialButton(
+                minWidth: screenSize.width,
+                onPressed: () => onPressed("/HomePage"),
+                child: new Row(
+                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //crossAxisAlignment: CrossAxisAlignment.start,
+                  //mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    new Container(
+                      width: screenSize.width * 0.4,
+                      margin: EdgeInsets.only(
+                          top: screenSize.width * 0.1,
+                          bottom: screenSize.width * 0.1),
+                      child: new Text(
+                        alert.title,
+                        //textAlign: TextAlign.start,
+                        style: new TextStyle(
+                          fontFamily: "Roboto",
+                          color: Colors.white,
+                          fontSize: 16.0,
                         ),
                       ),
-                      new Container(
-                        width: screenSize.width * 0.5,
-                        child: new Text(
-                          alert.scheduleAt,
-                          //textAlign: TextAlign.start,
-                          style: new TextStyle(
-                            fontFamily: "Roboto",
-                            color: Colors.white,
-                            fontSize: 16.0,
-                          ),
+                    ),
+                    new Container(
+                      width: screenSize.width * 0.45,
+                      margin: EdgeInsets.only(
+                          top: screenSize.width * 0.1,
+                          bottom: screenSize.width * 0.1,
+                          left: screenSize.width * 0.05),
+                      child: new Text(
+                        alert.scheduleAt,
+                        textAlign: TextAlign.start,
+                        style: new TextStyle(
+                          fontFamily: "Roboto",
+                          color: Colors.white,
+                          fontSize: 16.0,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                backgroundColor: Colors.transparent,
-                elevation: 0.0,
               ),
             ),
             new Container(
@@ -261,18 +289,20 @@ class AlertDetailsScreenState extends State<AlertDetailsScreen>
                     padding: const EdgeInsets.all(20.0),
                   )),
                   new InkWell(
-                    /*
+                      /*
                       child: new Center(
                         child: new Image.network(staticMapUri.toString()),
                       ),
-                      */
+                      
                     onTap: showMap(),
-                  )
+                    */
+                      )
                 ],
               ),
             ),
+
             new Container(
-              height: screenSize.height * 0.2,
+              height: screenSize.height * 0.15,
               width: screenSize.width,
               color: Colors.white,
               padding: const EdgeInsets.only(
@@ -283,8 +313,10 @@ class AlertDetailsScreenState extends State<AlertDetailsScreen>
               ),
             ),
             new Container(
-              height: screenSize.height * 0.1,
+              height: screenSize.height * 0.15,
               width: screenSize.width,
+              padding: const EdgeInsets.only(
+                  top: 15.0, bottom: 20.0, left: 15.0, right: 15.0),
               child: ListTile(
                 title: new Text(
                   alert.message,
@@ -292,7 +324,7 @@ class AlertDetailsScreenState extends State<AlertDetailsScreen>
                   style: new TextStyle(
                     fontFamily: "Roboto",
                     color: Colors.black,
-                    fontSize: 18.0,
+                    fontSize: 15.0,
                   ),
                 ),
                 subtitle: new Text(""),
@@ -308,10 +340,10 @@ class AlertDetailsScreenState extends State<AlertDetailsScreen>
             new Container(
               height: screenSize.height * 0.22,
               width: screenSize.width,
-              //color: Colors.white,
-              
-              decoration:
-                  new BoxDecoration(border: new Border.all(color: Colors.grey)),
+              color: Colors.white,
+
+              // decoration:
+              //    new BoxDecoration(border: new Border.all(color: Colors.grey)),
               child: buildUpdates(),
             ),
 
@@ -343,7 +375,7 @@ class AlertDetailsScreenState extends State<AlertDetailsScreen>
             ),
           ],
         ),
-      );
+      ));
     }
   }
 
@@ -354,5 +386,36 @@ class AlertDetailsScreenState extends State<AlertDetailsScreen>
     return MaterialApp(
       home: Scaffold(body: _buildDetails()),
     );
+  }
+}
+
+class CompositeSubscription {
+  Set<StreamSubscription> _subscriptions = new Set();
+
+  void cancel() {
+    for (var n in this._subscriptions) {
+      n.cancel();
+    }
+    this._subscriptions = new Set();
+  }
+
+  void add(StreamSubscription subscription) {
+    this._subscriptions.add(subscription);
+  }
+
+  void addAll(Iterable<StreamSubscription> subs) {
+    _subscriptions.addAll(subs);
+  }
+
+  bool remove(StreamSubscription subscription) {
+    return this._subscriptions.remove(subscription);
+  }
+
+  bool contains(StreamSubscription subscription) {
+    return this._subscriptions.contains(subscription);
+  }
+
+  List<StreamSubscription> toList() {
+    return this._subscriptions.toList();
   }
 }

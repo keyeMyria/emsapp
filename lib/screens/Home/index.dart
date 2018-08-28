@@ -27,6 +27,7 @@ class HomeScreenState extends State<HomeScreen>
   AppAlerts userAlerts = new AppAlerts();
   ScrollController scrollController = new ScrollController();
 
+  var title = "test";
   bool _loading;
 
   @override
@@ -71,11 +72,18 @@ class HomeScreenState extends State<HomeScreen>
 
   RefreshController _refreshController = new RefreshController();
   void _onRefresh(bool up) {
+  
+   
     if (up) {
       //headerIndicator callback
       new Future.delayed(const Duration(milliseconds: 2009)).then((val) {
         _refreshController.sendBack(true, RefreshStatus.failed);
+        setState(() {
+                  title = "IN IF";
+                });
       });
+
+      print("END OF IF");
     } else {
       //footerIndicator Callback
     }
@@ -158,13 +166,13 @@ class HomeScreenState extends State<HomeScreen>
               color: Colors.cyan,
               child: AppBar(
                 title: MaterialButton(
-                  onPressed: () => onPressed("/HomePage"),
+                  onPressed: null,
                   child: new Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       new Text(
-                        "TEAMWORKS ALERTS",
+                        title,
                         style: new TextStyle(
                           fontFamily: "Roboto",
                           color: Colors.white,
@@ -222,7 +230,7 @@ class HomeScreenState extends State<HomeScreen>
                           child: new SmartRefresher(
                             enablePullDown: true,
                             enablePullUp: true,
-                            //onRefresh: _onRefresh,
+                            onRefresh: _onRefresh,
                             child: new ListView.builder(
                               itemCount: alerts.length,
                               itemBuilder: (BuildContext ctxt, int index) {
